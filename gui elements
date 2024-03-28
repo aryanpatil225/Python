@@ -1,0 +1,71 @@
+import tkinter as tk
+import random
+
+# Create root window
+root = tk.Tk()
+
+# Change window background color
+root.configure(bg="white")
+
+# Change the title
+root.title("Organizer Dashboard")
+
+# Change window size
+root.geometry("500x500")
+
+# Create an empty list
+tasks = []
+
+# Defining the functions
+def update_listbox():
+    clear_listbox()
+    for task in tasks:
+        lb_task.insert("end", task)
+
+def clear_listbox():
+    lb_task.delete(0, "end")
+
+def add_task():
+    task = txt_input.get()
+    if task:
+        tasks.append(task)
+        update_listbox()
+
+def del_one():
+    selected_task_index = lb_task.curselection()
+    if selected_task_index:
+        index = selected_task_index[0]
+        lb_task.delete(index)
+        tasks.pop(index)
+
+def del_all():
+    clear_listbox()
+    tasks.clear()
+
+lbl_title = tk.Label(root, text="DASHBOARD", bg="grey")
+lbl_title.pack()
+
+lbl_display = tk.Label(root, text="", bg="white")
+lbl_display.pack()
+
+txt_input = tk.Entry(root, width=15)
+txt_input.pack()
+
+# Buttons
+btn_add_task = tk.Button(root, text="ADD EVENT ", fg="black", bg="grey", command=add_task)
+btn_add_task.pack()
+
+btn_del_one = tk.Button(root, text="  DELETE  ", fg="black", bg="grey", command=del_one)
+btn_del_one.pack()
+
+btn_del_all = tk.Button(root, text="   CLEAR   ", fg="black", bg="grey", command=del_all)
+btn_del_all.pack()
+
+lb_task = tk.Listbox(root)
+lb_task.pack()  # This line was missing the pack() method call
+
+# Display tasks in the listbox
+update_listbox()
+
+# Start the main events loop
+root.mainloop()
